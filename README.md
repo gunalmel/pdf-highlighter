@@ -12,7 +12,7 @@ The js file deals with the following
 1. Iterate over all words in pdf file and compare them with the search terms.
 2. Get the quadrilateral coordinates of the box containing matching words in pdf and call annotate command to highlight the box that encompasses the word(s) in search term.
 3. If the search term is multiple words and those words are matched in pdf on different lines 
-    e.g.: search term: "my white cat" and the search term is broken into two lines such that "my" appears at the end of 1st line and "white cat" appears on the 2nd line. Then, when highlighting there should be 2 sets of quadrilateral coordinates identified for that search term. One for the highlight box that will have "my", and one for "white cat"
+    e.g.: Search term is "my white cat" and the search term is broken into two lines such that "my" appears at the end of 1st line, "white cat" appears on the 2nd line. Then, when highlighting there should be 2 sets of quadrilateral coordinates identified for that search term. One for the highlight box that will have "my", and one for "white cat"
 
 If anyone knows a better way of doing this I would appreciate the help very much. Thx!
 
