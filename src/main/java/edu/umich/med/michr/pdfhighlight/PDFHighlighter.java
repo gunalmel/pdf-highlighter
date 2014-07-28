@@ -38,10 +38,6 @@ public class PDFHighlighter {
 		
 		collectFileNames(args);// default pdf file names and js file name is defined in build.gradle file as well as in static variables and should match for the app to run consistently in both eclipse, command line and gradle 
 	    
-		System.out.println(SOURCE_PDF_FILE_PATH);
-		System.out.println(TARGET_PDF_FILE_PATH);
-		System.out.println(JS_FILE_PATH);
-		
 		PDDocument doc = PDDocument.load(SOURCE_PDF_FILE_PATH);
 		
 		String jsCode= new String(Files.readAllBytes(Paths.get(JS_FILE_PATH)));
