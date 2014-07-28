@@ -1,2 +1,48 @@
-.gradle
+# Compiled Source #
+###################
+/target
+*.class
+# Package Files #
+#################
+*.jar
+*.war
+*.ear
+# Eclipse config files #
+########################
+.settings/
+.classpath
+.project
+.metadata
+*.pydevproject
+bin/**
+tmp/**
+tmp/**/*
+*.tmp
+# *.bak
+*.swp
+*~.nib
+local.properties
+.loadpath
+
+# External tool builders #
+##########################
+.externalToolBuilders/
+
+# Locally stored "Eclipse launch configurations" #
+##################################################
+*.launch
+
+# CDT-specific #
+################
+.cproject
+
+# PDT-specific #
+################
+.buildpath
+
+# Hidden Gradle Files #
+#######################
+.gradle/
 build/
+gradle/
+/bin

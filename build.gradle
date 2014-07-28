@@ -1,0 +1,110 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin:'application' // to build the executable jar file
+
+mainClassName = "edu.umich.med.michr.pdfhighlight.PDFHighlighter" //application plugin uses this variable.
+
+ext{
+    defaultSourceFile = "test.pdf"
+    defaultTargetFile = "test-highlighted.pdf"
+}
+
+def getSrcDir() {
+    
+    def mainArgs
+    
+    if (!project.hasProperty('pdfFiles')){
+        def readln = javax.swing.JOptionPane.&showInputDialog
+    
+    def sourceFile = readln 'Enter the pdf file to be highlighted in the classpath (default: test.pdf)'
+    
+    if(!sourceFile)
+        sourceFile = defaultSourceFile
+    
+    def targetFile = readln 'Enter the pdf file to be highlighted in the classpath (default: test-highlighted.pdf)'
+    
+    if(!targetFile)
+        targetFile = defaultTargetFile  
+   
+    mainArgs = [sourceFile,targetFile]
+   
+    }else{
+        mainArgs = pdfFiles.split(',')
+    }
+
+    return mainArgs
+}
+
+sourceSets.main.runtimeClasspath.add files("${projectDir}/src/main/resources/")
+// If you provide main args on the command line as "gradle -PpdfFiles=a,b" then user input in dialog will be overridden
+task(runSimple, dependsOn: 'classes', type: JavaExec) {
+    
+    main = mainClassName
+    classpath = sourceSets.main.runtimeClasspath
+    doFirst {//if you call a method outside doFirst or doLast that method will be called even when task is not executed
+        //sourceSets.main.resources.srcDirs = ['src/main/resources/']
+        args getSrcDir() 
+    }
+}
+
+defaultTasks 'runSimple'
+
+distZip{
+    //do not include src/main/resources in jar file.
+    sourceSets.main.resources.srcDirs = []
+}
+// copy files in src/main/resources to bin fin in distirbution zip (application plugin, distZip task)
+applicationDistribution.from('src/main/resources/') {
+    into "bin"
+}
+
+// Add the copied files from resources to distZip bin folder to classpath. (http://forums.gradle.org/gradle/topics/classpath_in_application_plugin_is_bilding_always_relative_to_app_home_lib_directory)
+startScripts {
+    classpath += files('src/main/resources/')
+    doLast {
+        def windowsScriptFile = file getWindowsScript()
+        def unixScriptFile    = file getUnixScript()
+        windowsScriptFile.text = windowsScriptFile.text.replace('%APP_HOME%\\lib\\resources', '%APP_HOME%\\bin')
+        unixScriptFile.text    = unixScriptFile.text.replace('$APP_HOME/lib/resources', '$APP_HOME/bin')
+    }
+}
+
+//install the wrapper into your project by adding and configuring a Wrapper task in your build script, and then executing it.
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.0'
+}
+
+sourceCompatibility = 1.7
+version = '1.0'
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'JS PDF HighLighter', 'Implementation-Version': version
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
+    compile group: 'org.apache.pdfbox', name: 'pdfbox', version: '1.8.6'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.0'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.0'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-1.2-api', version: '2.0'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-jcl', version: '2.0'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.0'
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+}
+
+test {
+    systemProperties 'property': 'value'
+}
+
+uploadArchives {
+    repositories {
+       flatDir {
+           dirs 'repos'
+       }
+    }
+}
