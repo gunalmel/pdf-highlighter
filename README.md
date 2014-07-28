@@ -36,4 +36,4 @@ That will allow you to have zipped ditribution file under build/distribution dir
 
 $projectDir/build/distributions/pdf-highlight-1.0/bin> ./pdf-highlight
 
-After running the app you can find the js injected pdf file at the same path as the input pdf file. Opening it in Adobe Reader on Mac and Windows platforms exectes js and colors the search terms in the file.
+After running the app you can find the js injected pdf file at the same path as the input pdf file. Opening it in Adobe Reader on Mac and Windows platforms executes the js and colors the search terms in the file.
