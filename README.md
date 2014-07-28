@@ -35,3 +35,5 @@ $projectDir> ./gradlew clean distZip
 That will allow you to have zipped ditribution file under build/distribution directory. When zip file is extracted, bin(pdf input file should be in here) folder will have script files that will allow you to run the app as java console application:
 
 $projectDir/build/distributions/pdf-highlight-1.0/bin> ./pdf-highlight
+
+After running the app you can find the js injected pdf file at the same path as the input pdf file. Opening it in Adobe Reader on Mac and Windows platforms exectes js and colors the search terms in the file.
